@@ -1,0 +1,11 @@
+C:\Users\sprodan\Documents\Visual Studio 2017\Projects\CommentsWeb\CommentsWeb\bin\Debug\netcoreapp2.0\CommentsWeb.deps.json
+C:\Users\sprodan\Documents\Visual Studio 2017\Projects\CommentsWeb\CommentsWeb\bin\Debug\netcoreapp2.0\CommentsWeb.runtimeconfig.json
+C:\Users\sprodan\Documents\Visual Studio 2017\Projects\CommentsWeb\CommentsWeb\bin\Debug\netcoreapp2.0\CommentsWeb.runtimeconfig.dev.json
+C:\Users\sprodan\Documents\Visual Studio 2017\Projects\CommentsWeb\CommentsWeb\bin\Debug\netcoreapp2.0\CommentsWeb.dll
+C:\Users\sprodan\Documents\Visual Studio 2017\Projects\CommentsWeb\CommentsWeb\bin\Debug\netcoreapp2.0\CommentsWeb.pdb
+C:\Users\sprodan\Documents\Visual Studio 2017\Projects\CommentsWeb\CommentsWeb\obj\Debug\netcoreapp2.0\CommentsWeb.csprojResolveAssemblyReference.cache
+C:\Users\sprodan\Documents\Visual Studio 2017\Projects\CommentsWeb\CommentsWeb\obj\Debug\netcoreapp2.0\CommentsWeb.csproj.CoreCompileInputs.cache
+C:\Users\sprodan\Documents\Visual Studio 2017\Projects\CommentsWeb\CommentsWeb\obj\Debug\netcoreapp2.0\CommentsWeb.AssemblyInfoInputs.cache
+C:\Users\sprodan\Documents\Visual Studio 2017\Projects\CommentsWeb\CommentsWeb\obj\Debug\netcoreapp2.0\CommentsWeb.AssemblyInfo.cs
+C:\Users\sprodan\Documents\Visual Studio 2017\Projects\CommentsWeb\CommentsWeb\obj\Debug\netcoreapp2.0\CommentsWeb.dll
+C:\Users\sprodan\Documents\Visual Studio 2017\Projects\CommentsWeb\CommentsWeb\obj\Debug\netcoreapp2.0\CommentsWeb.pdb
