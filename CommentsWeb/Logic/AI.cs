@@ -25,6 +25,8 @@ namespace Parse.Logic
 		private List<ScoredWorld> positiveWorlds1;
 		private List<ScoredWorld> negativeWorlds1;
 		private List<ScoredWorld> commonWorlds1;
+
+        private Parser _parser = new Parser();
         private static AI _instance;
         public static AI Instance 
         { 
@@ -35,9 +37,33 @@ namespace Parse.Logic
 			}
         }
 
+        public int GetWorldsCount()
+        {
+            return positiveWorlds1.Count + negativeWorlds1.Count + commonWorlds1.Count;
+        }
+
+
+        private double _accuracy = 0.8;
+        public double Accuracy(int count)
+        {
+            if (_accuracy != -1) return _accuracy;
+            var allComments = _parser.GetComments();
+            var sumAcuracy = .0;
+            for(int i = 0; i < count; i++)
+            {
+                var result = GetResultIndex(allComments[i].PositiveReaction,
+                                            allComments[i].NegativeReaction,
+                                            allComments[i].Body);
+                sumAcuracy += Math.Abs(allComments[i].Score - result) / 5;
+            }
+            _accuracy = (sumAcuracy / count);
+            return _accuracy;
+        }
+
         public void Learn()
         {
-			var positiveWorlds = ProcessData(4);
+            Progress += i => Debug.WriteLine($"{i}0%");
+            var positiveWorlds = ProcessData(4);
 			var negativeWorlds = ProcessData(5);
 			var commonWorlds = ProcessData(6);
 
@@ -45,12 +71,12 @@ namespace Parse.Logic
 			Parser.WriteToFile(negativeWorlds, "negativeWorlds.json");
 			Parser.WriteToFile(commonWorlds, "commonWorlds.json");
 			Console.WriteLine("Parsing done");
-            Progress += i => Debug.WriteLine($"{i}0%");
+            
 		}
 
 		private List<ScoredWorld> ProcessData(int index)
 		{
-			var data = new Parser().GetComments();
+			var data = _parser.GetComments();
             Debug.WriteLine($"{index} worlds");
 			var processedData = GetStructuredWorldCount(data, index);
             Debug.WriteLine("done");
@@ -124,8 +150,9 @@ namespace Parse.Logic
                     }
                     else
                     {
-                        result.Add(new ScoredWorld(){Count = 1, Score = line.Item2, World = newworld});
-                        dict.Add(newworld, 1);
+                        var fixedWorld = Parser.FixWorld(newworld);
+                        result.Add(new ScoredWorld(){Count = 1, Score = line.Item2, World = fixedWorld });
+                        dict.Add(fixedWorld, 1);
                     }
 
                 }
@@ -139,7 +166,7 @@ namespace Parse.Logic
             return data.OrderByDescending(x => x.Count);
         }
 
-        public static double AnalizeComment(string comment, List<ScoredWorld> data)
+        public static double AnalyzeComment(string comment, List<ScoredWorld> data)
         {
             var fixedComment = Parser.FixLine(comment);
             var worlds = fixedComment.Split(' ');
@@ -159,9 +186,9 @@ namespace Parse.Logic
 
         public double GetResultIndex(string positiveComment, string negativeComment, string comment)
 		{
-			var positiveIndex = AI.AnalizeComment(positiveComment, positiveWorlds1);
-			var negativeIndex = AI.AnalizeComment(negativeComment, negativeWorlds1);
-			var commonIndex = AI.AnalizeComment(comment, commonWorlds1);
+			var positiveIndex = AI.AnalyzeComment(positiveComment, positiveWorlds1);
+			var negativeIndex = AI.AnalyzeComment(negativeComment, negativeWorlds1);
+			var commonIndex = AI.AnalyzeComment(comment, commonWorlds1);
 			var valuableindex = 0;
 			double sum = 0;
 			if (positiveIndex != -1)

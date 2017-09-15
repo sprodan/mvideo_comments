@@ -4,6 +4,7 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
+    <ActiveDebugProfile>CommentsWeb</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>mvideocomments - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

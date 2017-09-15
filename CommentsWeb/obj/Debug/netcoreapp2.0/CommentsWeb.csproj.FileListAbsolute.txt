@@ -21,3 +21,14 @@ C:/Users/sprodan/Documents/Visual Studio 2017/Projects/CommentsWeb/CommentsWeb/o
 /Users/stanislav/Projects/sprodan/mvideo_comments.git/trunk/CommentsWeb/obj/Debug/netcoreapp2.0/CommentsWeb.AssemblyInfo.cs
 /Users/stanislav/Projects/sprodan/mvideo_comments.git/trunk/CommentsWeb/obj/Debug/netcoreapp2.0/CommentsWeb.dll
 /Users/stanislav/Projects/sprodan/mvideo_comments.git/trunk/CommentsWeb/obj/Debug/netcoreapp2.0/CommentsWeb.pdb
+C:\Users\Stanislav\Source\Repos\mvideo_comments\CommentsWeb\bin\Debug\netcoreapp2.0\CommentsWeb.deps.json
+C:\Users\Stanislav\Source\Repos\mvideo_comments\CommentsWeb\bin\Debug\netcoreapp2.0\CommentsWeb.runtimeconfig.json
+C:\Users\Stanislav\Source\Repos\mvideo_comments\CommentsWeb\bin\Debug\netcoreapp2.0\CommentsWeb.runtimeconfig.dev.json
+C:\Users\Stanislav\Source\Repos\mvideo_comments\CommentsWeb\bin\Debug\netcoreapp2.0\CommentsWeb.dll
+C:\Users\Stanislav\Source\Repos\mvideo_comments\CommentsWeb\bin\Debug\netcoreapp2.0\CommentsWeb.pdb
+C:\Users\Stanislav\Source\Repos\mvideo_comments\CommentsWeb\obj\Debug\netcoreapp2.0\CommentsWeb.csprojResolveAssemblyReference.cache
+C:\Users\Stanislav\Source\Repos\mvideo_comments\CommentsWeb\obj\Debug\netcoreapp2.0\CommentsWeb.csproj.CoreCompileInputs.cache
+C:\Users\Stanislav\Source\Repos\mvideo_comments\CommentsWeb\obj\Debug\netcoreapp2.0\CommentsWeb.AssemblyInfoInputs.cache
+C:\Users\Stanislav\Source\Repos\mvideo_comments\CommentsWeb\obj\Debug\netcoreapp2.0\CommentsWeb.AssemblyInfo.cs
+C:\Users\Stanislav\Source\Repos\mvideo_comments\CommentsWeb\obj\Debug\netcoreapp2.0\CommentsWeb.dll
+C:\Users\Stanislav\Source\Repos\mvideo_comments\CommentsWeb\obj\Debug\netcoreapp2.0\CommentsWeb.pdb

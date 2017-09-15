@@ -1,6 +1,8 @@
 ﻿@page
 @using CommentsWeb.Pages
-@model CommentsWeb.Pages.IndexModel
+@using Microsoft.AspNetCore.Identity
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IndexModel
 @{
 }
 
@@ -9,50 +11,99 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Авторизация</title>
+    <title>Анализ комментариев</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib_bower/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib_bower/font-awesome/css/font-awesome.css" />
-        <link rel="stylesheet" href="~/css/animate.css" />
         <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/lib_bower/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/lib_bower/font-awesome/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="~/css/animate.css" />
         <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     </environment>
-
-
-
-    <!--Html.ApplicationInsightsJavaScript(TelemetryConfiguration)-->
 </head>
-<body class="gray-bg md-skin3">
-
-    <div class="middle-box text-center loginscreen  animated fadeInDown">
-        <div>
+<body class="gray-bg md-skin3 boxed-layout" style="padding: 20px;">
+    <environment names="Development">
+        <script src="~/lib_bower/jquery/dist/jquery.js"></script>
+        <script src="~/lib_bower/bootstrap/dist/js/bootstrap.js"></script>
+        <!-- Only for demo purpose -->
+        <script src="~/js/skin.config.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib_bower/jquery/dist/jquery.js"></script>
+        <script src="~/lib_bower/bootstrap/dist/js/bootstrap.min.js"></script>
+        
+    </environment>
+    <div class="row animated fadeInDown">
+        <div class="col-md-6">
             <h3>Анализ комментариев mvideo</h3>
-            <form class="m-t" method="post">
+            <form class="m-t" id="form">
+                @Html.AntiForgeryToken();
                 <div class="form-group">
-                    <input asp-for="Comment.PositiveReaction" type="text" class="form-control" placeholder="Позитивный комментарий" required="">
+                    <input asp-for="@Model.Comment.PositiveReaction" type="text" class="form-control" placeholder="Позитивный комментарий" required="" name="positive">
                 </div>
 				<div class="form-group">
-                    <input asp-for="Comment.NegativeReaction" type="text" class="form-control" placeholder="Позитивный комментарий" required="">
+                    <input asp-for="@Model.Comment.NegativeReaction" type="text" class="form-control" placeholder="Негативный комментарий" required="" name="negative">
                 </div>	
 				<div class="form-group">
-                    <input asp-for="Comment.Body" type="text" class="form-control" placeholder="Позитивный комментарий" required="">
+                    <input asp-for="@Model.Comment.Body" type="text" class="form-control" placeholder="Общий комментарий" required="" name="general">
                 </div>  
                 <button type="submit" class="btn btn-primary block full-width m-b">Анализировать</button>
-
-                @*<a href="#"><small>Forgot password?</small></a>
-                <p class="text-muted text-center"><small>Do not have an account?</small></p>*@
-                @*<a class="btn btn-sm btn-white btn-block" href="@Url.Action("Register", "Pages")">Create an account</a>*@
             </form>
-            @*<p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2015</small> </p>*@
+        </div>
+        <div class="col-md-6">
+            <h3>Статистика</h3>
+            <p>Проанализировано @Model.CountComments комментариев</p>
+            <p>В словаре @Model.CountWorlds слов</p>
+            <p>Точность предсказаний @Model.Accuracy %</p>
+        </div>
+        <div id="result-form" class="modal fade" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="m-t-none m-b">Ваша прогнозируемая оценка:</h3>
+                                <h1 id="resultIndex"></h1>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <script>
+        var form = $("#form");
+        form.on("submit", function (event) {
+            event.preventDefault();
+            var data = form.serialize();
+            var token = $('[name=__RequestVerificationToken]').val();
 
+            $.ajax({
+                url: "/Index?handler=calculate",
+                type: 'POST',
+                dataType: "json",
+                data: { __RequestVerificationToken: token, jsonRequest: data }, 
+                success: function (response) {
+                    switch (response.code) {
+                        case 200:
+                            $("#resultIndex").html(response.index);
+                            break;
+                        case 400:
+                            $("#resultIndex").html("Невозможно распознать индекс данного комментария");
+                            break;
+                        default:
+                            $("#resultIndex").html("Произошла неизвестная ошибка сервера");
+                            break;
+                    }
+                    $("#result-form").modal("show");
+                }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -17,6 +17,7 @@ namespace Parse.Logic
         {
             var newLine = "";
             var flag = false;
+            if(line == null) return newLine;
             foreach (var c in line)
             {
                 var tmpc = c;
@@ -33,11 +34,11 @@ namespace Parse.Logic
             return newLine;
         }
 
-        public static string FixWorld(string world)
+        public static string FixWorld(string world, bool needDots = false)
         {
-            return world.ToLower()
+            var res = world;
+            res = res.ToLower()
                 .Replace("\"", "")
-                .Replace(".", "")
                 .Replace(")", "")
                 .Replace("!", "")
                 .Replace("#", "")
@@ -50,6 +51,12 @@ namespace Parse.Logic
                 .Replace("[", "")
                 .Replace("]", "")
                 .Replace("|", "");
+            if (!needDots)
+            {
+                res = res
+                .Replace(".", "");
+            }
+            return res;
         }
 
         public List<Comment> GetComments()
@@ -62,7 +69,7 @@ namespace Parse.Logic
             {
                 var fixedline = FixLine(line);
                 var data = fixedline.Split(',');
-                if (data[0].Contains('.')) data[0] = data[0].Replace('.', ',');
+                //if (data[0].Contains('.')) data[0] = data[0].Replace('.', ',');
                 if (data.Length == 7)
                 {
                     dataList.Add(new Comment
