@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -20,6 +21,48 @@ namespace Parse.Logic
     public class AI
     {
         public Action<int> Progress;
+
+		private List<ScoredWorld> positiveWorlds1;
+		private List<ScoredWorld> negativeWorlds1;
+		private List<ScoredWorld> commonWorlds1;
+        private static AI _instance;
+        public static AI Instance 
+        { 
+            get
+            {
+                if(_instance == null) _instance = new AI();
+                return _instance;
+			}
+        }
+
+        public void Learn()
+        {
+			var positiveWorlds = ProcessData(4);
+			var negativeWorlds = ProcessData(5);
+			var commonWorlds = ProcessData(6);
+
+			Parser.WriteToFile(positiveWorlds, "positiveWorlds.json");
+			Parser.WriteToFile(negativeWorlds, "negativeWorlds.json");
+			Parser.WriteToFile(commonWorlds, "commonWorlds.json");
+			Console.WriteLine("Parsing done");
+            Progress += i => Debug.WriteLine($"{i}0%");
+		}
+
+		private List<ScoredWorld> ProcessData(int index)
+		{
+			var data = new Parser().GetComments();
+            Debug.WriteLine($"{index} worlds");
+			var processedData = GetStructuredWorldCount(data, index);
+            Debug.WriteLine("done");
+			return processedData;
+		}
+
+        private AI()
+        {
+			positiveWorlds1 = Parser.GetDataFromFile("positiveWorlds.json");
+            negativeWorlds1 = Parser.GetDataFromFile("negativeWorlds.json");
+			commonWorlds1 = Parser.GetDataFromFile("commonWorlds.json");
+        }
 
         private static List<Tuple<object, double>> GetLines(List<Comment> data, int index)
         {
@@ -113,5 +156,35 @@ namespace Parse.Logic
             }
             return valuableWorldsCount == 0 ? -1 : index / valuableWorldsCount;
         }
+
+        public double GetResultIndex(string positiveComment, string negativeComment, string comment)
+		{
+			var positiveIndex = AI.AnalizeComment(positiveComment, positiveWorlds1);
+			var negativeIndex = AI.AnalizeComment(negativeComment, negativeWorlds1);
+			var commonIndex = AI.AnalizeComment(comment, commonWorlds1);
+			var valuableindex = 0;
+			double sum = 0;
+			if (positiveIndex != -1)
+			{
+				valuableindex++;
+				sum += positiveIndex;
+			}
+			if (negativeIndex != -1)
+			{
+				valuableindex++;
+				sum += negativeIndex;
+			}
+			if (commonIndex != -1)
+			{
+				valuableindex++;
+				sum += commonIndex;
+			}
+			if (valuableindex == 0) return -1;
+			else
+			{
+				var resultIndex = sum / valuableindex;
+				return resultIndex;
+			}
+		}
     }
 }

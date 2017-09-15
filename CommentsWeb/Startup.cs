@@ -25,6 +25,7 @@ namespace CommentsWeb
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }
